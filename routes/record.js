@@ -11,10 +11,10 @@ const multer = Multer({
 
 // TODO: Sesuaikan konfigurasi database
 const connection = mysql.createConnection({
-    host: 'public_ip_sql_instance_Anda',
+    host: '34.72.68.16',
     user: 'root',
-    database: 'nama_database_Anda',
-    password: 'password_sql_Anda'
+    database: 'gce',
+    password: '12345'
 })
 
 router.get("/dashboard", (req, res) => {
@@ -123,7 +123,7 @@ router.put("/editrecord/:id", multer.single('attachment'), imgUpload.uploadToGcs
     }
 
     const query = "UPDATE records SET name = ?, amount = ?, date = ?, notes = ?, attachment = ? WHERE id = ?"
-    
+
     connection.query(query, [name, amount, date, notes, imageUrl, id], (err, rows, fields) => {
         if (err) {
             res.status(500).send({message: err.sqlMessage})
@@ -135,7 +135,7 @@ router.put("/editrecord/:id", multer.single('attachment'), imgUpload.uploadToGcs
 
 router.delete("/deleterecord/:id", (req, res) => {
     const id = req.params.id
-    
+
     const query = "DELETE FROM records WHERE id = ?"
     connection.query(query, [id], (err, rows, fields) => {
         if (err) {
